@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premier League - results predictions</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='./static/css/style.css')}}">
+  <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+  <script src="{{ url_for('static', filename='./static/js/app.js')}}"></script>
+</head>
+<body onLoad="createShotsViz();">
+  <div class="container-xxl" >  
+    <div class="hero__image">
+      <img src="https://www.galaxyfm.co.ug/wp-content/uploads/2020/08/watch-english-premier-league-live-online-free-banner.jpg" alt="Premier League" class="img-responsive" width="100%;">
+      <div class="hero-text">
+        <div class="selectionBox">
+        <p>Team:&nbsp; 
+        <select id="TeamA" name="TeamA" style="max-width:15%;">
+          <option value='Arsenal'>Arsenal</option>
+          <option value='Aston Villa'>Aston Villa</option>
+          <option value='Bournemouth'>Bournemouth</option>
+          <option value='Brentford'>Brentford</option>
+          <option value='Brighton'>Brighton</option>
+          <option value='Burnley'>Burnley</option>
+          <option value='Cardiff City'>Cardiff City</option>
+          <option value='Chelsea'>Chelsea</option>
+          <option value='Crystal Palace'>Crysal Palace</option>
+          <option value='Everton'>Everton</option>
+          <option value='Fulham'>Fulham</option>
+          <option value='Huddersfield'>Huddersfield</option>
+          <option value='Leeds United'>Leeds United</option>
+          <option value='Leicester City'>Leicester City</option>
+          <option value='Liverpool'>Liverpool</option>
+          <option value='Manchester City'>Manchester City</option>
+          <option value='Manchester Utd'>Manchester Utd</option>
+          <option value='Newcastle Utd'>Newcastle Utd</option>
+          <option value='Norwich City'>Norwich City</option>
+          <option value='Sheffield Utd'>Sheffield Utd</option>
+          <option value='Southampton'>Southampton</option>
+          <option value='Stoke City'>Stoke City</option>
+          <option value='Swansea City'>Swansea City</option>
+          <option value='Tottenham'>Tottenham</option>
+          <option value='Watford'>Watford</option>
+          <option value='West Brom'>West Brom</option>
+          <option value='West Ham'>West Ham</option>
+          <option value='Wolves'>Wolves</option>
+        </select>&nbsp;versus&nbsp;Team:&nbsp; 
+        <select id="TeamB" name="TeamB" style="max-width:15%;">
+          <option value='Arsenal'>Arsenal</option>
+          <option value='Aston Villa'>Aston Villa</option>
+          <option value='Bournemouth'>Bournemouth</option>
+          <option value='Brentford'>Brentford</option>
+          <option value='Brighton'>Brighton</option>
+          <option value='Burnley'>Burnley</option>
+          <option value='Cardiff City'>Cardiff City</option>
+          <option value='Chelsea'>Chelsea</option>
+          <option value='Crystal Palace'>Crysal Palace</option>
+          <option value='Everton'>Everton</option>
+          <option value='Fulham'>Fulham</option>
+          <option value='Huddersfield'>Huddersfield</option>
+          <option value='Leeds United'>Leeds United</option>
+          <option value='Leicester City'>Leicester City</option>
+          <option value='Liverpool'>Liverpool</option>
+          <option value='Manchester City'>Manchester City</option>
+          <option value='Manchester Utd'>Manchester Utd</option>
+          <option value='Newcastle Utd'>Newcastle Utd</option>
+          <option value='Norwich City'>Norwich City</option>
+          <option value='Sheffield Utd'>Sheffield Utd</option>
+          <option value='Southampton'>Southampton</option>
+          <option value='Stoke City'>Stoke City</option>
+          <option value='Swansea City'>Swansea City</option>
+          <option value='Tottenham'>Tottenham</option>
+          <option value='Watford'>Watford</option>
+          <option value='West Brom'>West Brom</option>
+          <option value='West Ham'>West Ham</option>
+          <option value='Wolves'>Wolves</option>&nbsp; 
+        </select>
+        <button type="button" class="button" value="Submit" onclick="submit_btn()" style="width:20%;">Show me the Stats!</button><br>
+      </div>
+      </div>
+    </div><br>
+  </div>
+    <div class="container-xxl" >
+    <div class="row">
+      <div class="tab">
+        <!-- <button class="tablink" name="Home" id="defaultOpen" onclick="openPage(event, 'Home')" >Home</button>         -->
+        <button class="tablink" name="Dashboard" onclick="openPage(event, 'Dashboards')">Stats</button>
+        <button class="tablink" name="Prediction" id="test" onclick="openPage(event, 'Prediction')">The winning team is ...</button>
+        <!-- <button class="tablink" name="Shots" onclick="openPage(event, 'Stats')">Shots stats</button> -->
+        <!-- <button class="tablink" name="About" onclick="openPage(event, 'About')">About</button> -->
+      </div>
+      <div id="Home" class="tabcontent">
+        <h3>Home</h3>
+        <p>How it works</p>
+      </div>
+      <div id="Prediction" class="tabcontent">
+        <!-- <h3>Prediction</h3> -->
+        <form id='myForm' method=post enctype=multipart/form-data >
+          <p>
+          <label for="team">What is your team?</label>
+          <select id="team" name="team">
+            <option value='Arsenal'>Arsenal</option>
+            <option value='Aston Villa'>Aston Villa</option>
+            <option value='Bournemouth'>Bournemouth</option>
+            <option value='Brentford'>Brentford</option>
+            <option value='Brighton'>Brighton</option>
+            <option value='Burnley'>Burnley</option>
+            <option value='Cardiff City'>Cardiff City</option>
+            <option value='Chelsea'>Chelsea</option>
+            <option value='Crystal Palace'>Crysal Palace</option>
+            <option value='Everton'>Everton</option>
+            <option value='Fulham'>Fulham</option>
+            <option value='Huddersfield'>Huddersfield</option>
+            <option value='Leeds United'>Leeds United</option>
+            <option value='Leicester City'>Leicester City</option>
+            <option value='Liverpool'>Liverpool</option>
+            <option value='Manchester City'>Manchester City</option>
+            <option value='Manchester Utd'>Manchester Utd</option>
+            <option value='Newcastle Utd'>Newcastle Utd</option>
+            <option value='Norwich City'>Norwich City</option>
+            <option value='Sheffield Utd'>Sheffield Utd</option>
+            <option value='Southampton'>Southampton</option>
+            <option value='Stoke City'>Stoke City</option>
+            <option value='Swansea City'>Swansea City</option>
+            <option value='Tottenham'>Tottenham</option>
+            <option value='Watford'>Watford</option>
+            <option value='West Brom'>West Brom</option>
+            <option value='West Ham'>West Ham</option>
+            <option value='Wolves'>Wolves</option>
+          </select>
+          <label for="opponent">What is the opponent</label>
+          <select id="opponent" name="opponent">
+            <option value='Arsenal'>Arsenal</option>
+            <option value='Aston Villa'>Aston Villa</option>
+            <option value='Bournemouth'>Bournemouth</option>
+            <option value='Brentford'>Brentford</option>
+            <option value='Brighton'>Brighton</option>
+            <option value='Burnley'>Burnley</option>
+            <option value='Cardiff City'>Cardiff City</option>
+            <option value='Chelsea'>Chelsea</option>
+            <option value='Crystal Palace'>Crysal Palace</option>
+            <option value='Everton'>Everton</option>
+            <option value='Fulham'>Fulham</option>
+            <option value='Huddersfield'>Huddersfield</option>
+            <option value='Leeds United'>Leeds United</option>
+            <option value='Leicester City'>Leicester City</option>
+            <option value='Liverpool'>Liverpool</option>
+            <option value='Manchester City'>Manchester City</option>
+            <option value='Manchester Utd'>Manchester Utd</option>
+            <option value='Newcastle Utd'>Newcastle Utd</option>
+            <option value='Norwich City'>Norwich City</option>
+            <option value='Sheffield Utd'>Sheffield Utd</option>
+            <option value='Southampton'>Southampton</option>
+            <option value='Stoke City'>Stoke City</option>
+            <option value='Swansea City'>Swansea City</option>
+            <option value='Tottenham'>Tottenham</option>
+            <option value='Watford'>Watford</option>
+            <option value='West Brom'>West Brom</option>
+            <option value='West Ham'>West Ham</option>
+            <option value='Wolves'>Wolves</option>
+          </select>
+          <br>
+          <label for="Venue">Where do they play</label>
+          <select id="venue" name="venue">
+             <option value="Home">Home</option>
+             <option value="Away">Away</option>
+          </select>
+          <label for="Day">Game Day</label>
+          <select id="day" name="day">
+             <option value="0">Monday</option>
+             <option value="1">Tuesday</option>
+             <option value="2">Wednesday</option>
+             <option value="3">Thursday</option>
+             <option value="4">Friday</option>
+             <option value="5">Saturday</option>
+             <option value="6">Sunday<option>
+          </select><br>
+          <label for="xg">What is xg for your team?</label>    
+          <input type="number" id="xg" name="xg" min="0" max="5"><br>
+          <label for="xg">What is xga for the opponent?</label>
+          <input type="number" id="xga" name="xga" min="0" max="5"><br><br>
+          <button id="button" type="submit" value="submit" class="btn btn-primary" onclick="return foo(event);">Submit</button>
+       </form>
+
+        <p id="results"></p>
+      </div>
+      <div id="Dashboards" class="tabcontent">
+        <h3>Team Comparison</h3>
+        <p>Use the filters below to cycle through the Seasons and see how accurate are the experts in pre-determinating the Expected Goals before each games as well as review past results by selecting an opponent or, compare your favourite teams results between seasons.</p>
+        <div class="row">
+          <div id="vizContainer" style="width:50%; height:100%;"></div>   
+          <div id="vizContainer1" style="width:50%; height:100%;"></div>   
+        </div>
+        <div id="vizContainerAvg" style="width: 100%; height:100%"></div>   
+      </div>
+  
+      <div id="Stats" class="tabcontent">
+        <h3>Average Shots by Months</h3>
+        <p>Review and compare the number of average shots by months for team.</p>
+        <div id="vizContainerAvg" style="width: 100%; height:100%"></div>   
+      </div>
+      
+      <div id="About" class="tabcontent">
+        <h3>About</h3>
+        <p>The datasource used on this website are the Scores &#38; Fixtures record obtained from <a href="https://fbref.com/en/comps/9/Premier-League-Stats" target="_blank">FBref</a></p>
+
+      </div>
+
+    </div>
+</body>
+</html> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -1,0 +1,7 @@
+# Ignore config.py file and folders below
+# config.py
+/*checkpoints
+/__pycache__
+/templates/*.bak
+/templates/static/css/*.bak
+/templates/static/js/*.bak
